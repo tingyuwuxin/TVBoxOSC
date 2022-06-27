@@ -139,7 +139,7 @@ public class ApiConfig {
                                 th.printStackTrace();
                             }
                         }
-                        callback.error("拉取配置失败");
+                        callback.error("拉取配置失败\n" + (response.getException() != null ? response.getException().getMessage() : ""));
                     }
 
                     public String convertResponse(okhttp3.Response response) throws Throwable {
@@ -342,8 +342,9 @@ public class ApiConfig {
         int channelIndex = 0;
         for (JsonElement groupElement : livesArray) {
             ChannelGroup channelGroup = new ChannelGroup();
+            channelGroup.setLiveChannels(new ArrayList<LiveChannel>());
             channelGroup.setGroupNum(groupIndex++);
-            channelGroup.setGroupName(((JsonObject) groupElement).get("Group").getAsString().trim());
+            channelGroup.setGroupName(((JsonObject) groupElement).get("group").getAsString().trim());
             for (JsonElement channelElement : ((JsonObject) groupElement).get("channels").getAsJsonArray()) {
                 JsonObject obj = (JsonObject) channelElement;
                 LiveChannel liveChannel = new LiveChannel();
